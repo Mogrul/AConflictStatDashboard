@@ -1,5 +1,163 @@
-html, body {
-    background-color: black;
+:root {
+    --border-colour: #2bef0e;
+    --text-colour: #2bef0e;
+    --text-shadow: #00ff00;
+    --background-colour: #0b210a;
+
+    --button-background-inactive: #1d960b;
+    --button-background-active: #2bef0e;
+    --button-text-inactive: #0b210a;
+}
+
+/* Body */
+body {
+    background-color: var(--background-colour);
     font-family: monospace;
-    height: 100%;
+    height: 97vh;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+    color: var(--text-colour);
+    text-shadow: 0 0 5px var(--text-shadow);
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(0, 255, 0, 0.05) 0px,
+        rgba(0, 255, 0, 0.05) 1px,
+        transparent 2px,
+        transparent 4px
+    );
+
+    animation: scanMove 6s linear infinite;
+}
+
+@keyframes scanMove {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 0 120px;
+    }
+}
+
+/* Global Changes */
+button {
+    background-color: var(--button-background-inactive);
+    color: var(--button-text-inactive);
+
+    font-size: clamp(12px, 1.2vw, 20px);
+    font-weight: bold;
+
+    border: 0;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button.active {
+    background-color: var(--button-background-active);
+}
+
+
+/* Top */
+.toolbar {
+    height: 4vh;
+    display: flex;
+
+    border: 2px solid var(--border-colour);
+    box-shadow: 
+        0 0 10px var(--text-colour),
+        inset 0 0 10px rgba(0, 255, 0, 0.5);
+
+    justify-content: center;
+    align-items: center;
+    font-size: clamp(12px, 1.2vw, 20px);
+}
+
+/* Main */
+.main {
+    display: flex;
+    flex: 1;
+    gap: 5px;
+}
+
+.main .left {
+    width: 10vw;
+    border: 2px solid var(--border-colour);
+    box-shadow: 
+        0 0 10px var(--text-shadow),
+        inset 0 0 10px rgba(0, 255, 0, 0.5);
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.main .left .spin {
+    width: 80%;
+    height: auto;
+    align-self: center;
+    margin: 5px;
+    filter: 
+        brightness(0) 
+        saturate(100%) 
+        invert(51%) 
+        sepia(96%) 
+        saturate(747%) 
+        hue-rotate(63deg) 
+        brightness(95%) 
+        contrast(95%)
+        drop-shadow(0 0 2px var(--text-shadow));
+    animation: spinY 3s linear infinite;
+    transform-style: preserve-3d;
+    display: block;
+}
+
+@keyframes spinY {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+.main .body {
+    gap: 5px;
+    width: 90vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.main .body .top {
+    display: flex;
+    flex-direction: row;
+    height: 5vh;
+    min-height: 1vh;
+    border: 2px solid #2bef0e;
+    box-shadow: 
+        0 0 10px #00ff00,
+        inset 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.main .body .top button {
+    flex: 1;
+}
+
+.main .body .content {
+    border: 2px solid var(--border-colour);
+    flex: 1;
+    box-shadow: 
+        0 0 10px var(--text-shadow),
+        inset 0 0 10px rgba(0, 255, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="UTF-8">
+        <meta property="og:title" content="ARMA Conflict Statistics">
+        <meta property="og:description" content="ARMA Conflict Server Statistics">
+        <meta property="og:url" content="https://ac.mogrul.com">
+        <meta property="og:type" content="website">
+
         <title>Arma Conflict - Statistic Dashboard</title>
 
         <link rel="stylesheet" href="/public/css/index.css">
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     </head>
     <body>
+        <div class="toolbar">
+            <h3>ARMA Conflict - Statistic Dashboard</h3>
+        </div>
 
+        <div class="main">
+            <div class="left">
+                <img class="spin" src="/public/image/reforger_logo.png">
+                <button class="active server-button" data-server="US-1">[ US-1 ]</button>
+                <button class="server-button" data-server="US-2">[ US-2 ]</button>
+                <button class="server-button" data-server="US-3">[ US-3 ]</button>
+                <button class="server-button" data-server="US-4">[ US-4 ]</button>
+            </div>
+            <div class="body">
+                <div class="top">
+                    <button class="active chart-button" data-type="playercount">[ P/C ]</button>
+                </div>
+                <div class="content">
+                    <canvas id="chart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom">
+
+        </div>
+
+        <script type="module" src="/public/js/index.js"></script>
     </body>
 </html>
