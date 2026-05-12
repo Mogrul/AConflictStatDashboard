@@ -24,4 +24,23 @@ router.post("/api/playercount", async (request, response) => {
     }
 })
 
+router.post("/api/winrate", async (request, response) => {
+    try {
+        const apiResponse = await fetch(`${env.API_URL}/stats/winrate`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-Api-Key": env.API_SHARED_KEY
+            },
+            body: JSON.stringify(request.body)
+        });
+
+        const data = await apiResponse.json();
+        response.json(data);
+    } catch (error) {
+        console.error(error);
+        response.status(500).json({ error: "Proxy failed" })
+    }
+})
+
 module.exports = router;

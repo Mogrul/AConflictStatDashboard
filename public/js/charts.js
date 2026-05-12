@@ -1,7 +1,28 @@
 let chartInstance = null;
+const factionColours = {
+    "Viet Cong": "#DA251D",
+    "Insurgents": "#D2B48C",
+    "United States Army": "#0A3161",
+    "Unexpected Server Crash": "#FFFF00"
+}
 
 async function getPlayerCount(server, days) {
     const response = await fetch("/api/playercount", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            server: server,
+            days: days
+        })
+    });
+
+    return await response.json();
+}
+
+async function getWinRate(server, days) {
+    const response = await fetch("/api/winrate", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -34,6 +55,21 @@ export async function createChart(button) {
         
         labels = data.map(x => x.day);
         values = data.map(x => x.count);
+    } else if (buttonType === "winrate") {
+        const data = await getWinRate(server, 50);
+        const factions = Object.keys(data);
+
+        labels = data[factions[0]].map(x => x.day);
+        values = factions.map(faction => ({
+            label: faction,
+            data: data[faction].map(x => x.count),
+
+            tension: 0.2,
+            borderColor: factionColours[faction] || "#999",
+            backgroundColor: factionColours[faction] || "#999",
+            fill: false
+        }))
+        
     } else {
         console.error(`No chart available with the type ${buttonType}`)
         return
@@ -42,8 +78,24 @@ export async function createChart(button) {
     /* If the chart already exists, update it */
     if (chartInstance) {
         chartInstance.data.labels = labels;
-        chartInstance.data.datasets[0].data = values;
-        chartInstance.data.datasets[0].label = `${buttonType} (${server})`
+
+        if (buttonType === "playercount") {
+            chartInstance.data.datasets = [
+                {
+                    label: `Player Count (${server})`,
+                    data: values,
+                    
+                    tension: 0.2,
+                    fill: true,
+                    borderColor: "#2bef0e",
+                    backgroundColor: "rgba(0, 255, 0, 0.1)"
+                }
+            ]
+
+        } else if (buttonType === "winrate") {
+            chartInstance.data.datasets = values;
+        }
+
         chartInstance.update({
             duration: 250,
             easing: "easeOutQuart"

@@ -25,6 +25,7 @@ chartButtons.forEach(button => {
     button.addEventListener("click", async () => {
         chartButtons.forEach(b => b.classList.remove("active"));
         button.classList.add("active");
+        
 
         await createChart(button);
     })
